@@ -1,6 +1,6 @@
 # messenger-bot
 
-A Node client for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform). *Note: Still a WIP! Mostly functional, but needs support for read receipts, and some proper testing.*
+A Node client for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform). *Note: Still a WIP! Fully functional, but needs some proper testing.*
 
 Requires Node >=4.0.0.
 
