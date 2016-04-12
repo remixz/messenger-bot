@@ -114,24 +114,37 @@ Returns profile information of the `target`, called in the `callback`. See [User
 
 Triggered when a message is sent to the bot.
 
-* `payload` - Object: An object containing the message event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/implementation#receive_message) for the format.
+* `payload` - Object: An object containing the message event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#received_message) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
 
 ```js
 bot.on('message', (payload, reply) => {
   reply({ text: 'hey!'}, (err, info) => {})
-}
+})
 ```
 
 #### bot.on('postback', (payload, reply))
 
 Triggered when a postback is triggered by the sender in Messenger.
 
-* `payload` - Object: An object containing the postback event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/implementation#receive_message) for the format.
+* `payload` - Object: An object containing the postback event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#postback) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
 
 ```js
 bot.on('postback', (payload, reply) => {
   reply({ text: 'hey!'}, (err, info) => {})
-}
+})
+```
+
+#### bot.on('delivery', (payload, reply))
+
+Triggered when a message has been successfully delivered.
+
+* `payload` - Object: An object containing the delivery event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#message_delivery) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+
+```js
+bot.on('delivery', (payload, reply) => {
+  reply({ text: 'hey!'}, (err, info) => {})
+})
 ```

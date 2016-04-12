@@ -96,7 +96,10 @@ class Bot extends EventEmitter {
             this._handleEvent('postback', event)
           }
 
-          // @TODO: read receipts
+          // handle message delivered
+          if (event.delivery) {
+            this._handleEvent('delivery', event)
+          }
         })
 
         res.end({status: 'ok'})
