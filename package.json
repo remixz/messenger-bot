@@ -1,0 +1,31 @@
+{
+  "name": "messenger-bot",
+  "version": "1.0.0",
+  "description": "FB Messenger Platform client",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remixz/messenger-bot.git"
+  },
+  "keywords": [
+    "messenger",
+    "api",
+    "client",
+    "bot"
+  ],
+  "author": "Zach Bruggeman <mail@bruggie.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/remixz/messenger-bot/issues"
+  },
+  "homepage": "https://github.com/remixz/messenger-bot#readme",
+  "dependencies": {
+    "request": "^2.71.0"
+  },
+  "devDependencies": {
+    "standard": "^6.0.8"
+  }
+}
