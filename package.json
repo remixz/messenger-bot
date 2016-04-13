@@ -4,7 +4,7 @@
   "description": "FB Messenger Platform client",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard && tap test/*.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "request": "^2.71.0"
   },
   "devDependencies": {
-    "standard": "^6.0.8"
+    "standard": "^6.0.8",
+    "tap": "^5.7.1"
   }
 }

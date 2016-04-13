@@ -72,7 +72,7 @@ class Bot extends EventEmitter {
   middleware () {
     return (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/json' })
-      if (req.url === '/_status') return res.send({status: 'ok'})
+      if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
       if (req.method !== 'POST') return res.end()
 
       let body = ''
@@ -107,7 +107,7 @@ class Bot extends EventEmitter {
           })
         })
 
-        res.end({status: 'ok'})
+        res.end(JSON.stringify({status: 'ok'}))
       })
     }
   }
