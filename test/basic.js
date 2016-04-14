@@ -31,7 +31,7 @@ tap.test('middleware runs', (t) => {
       t.error(err, 'should not error')
 
       t.deepEquals(JSON.parse(body), { status: 'ok' }, 'status endpoint should return ok')
-      
+
       t.tearDown(() => {
         server.close()
       })

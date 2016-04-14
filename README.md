@@ -1,4 +1,8 @@
 # messenger-bot
+[![Build Status](https://travis-ci.org/remixz/messenger-bot.svg?branch=master)](https://travis-ci.org/remixz/messenger-bot)
+[![npm version](https://img.shields.io/npm/v/messenger-bot.svg)](https://www.npmjs.com/package/messenger-bot)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 
 A Node client for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform). *Note: Still a WIP! Fully functional, but needs some proper testing.*
 
