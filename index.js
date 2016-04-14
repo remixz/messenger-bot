@@ -13,6 +13,7 @@ class Bot extends EventEmitter {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
     this.token = opts.token
+    this.verify_token = opts.verify || false
   }
 
   getProfile (id, cb) {
@@ -73,6 +74,7 @@ class Bot extends EventEmitter {
     return (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/json' })
       if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
+      if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
       if (req.method !== 'POST') return res.end()
 
       let body = ''
