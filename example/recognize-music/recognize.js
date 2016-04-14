@@ -25,7 +25,7 @@ module.exports = function recognizeSong (opts, cb) {
         sample: audio,
         signature_version: 1,
         signature: signature,
-        timestamp: timestamp,
+        timestamp: timestamp
       },
       json: true
     }, (err, res, body) => {

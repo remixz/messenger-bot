@@ -17,7 +17,9 @@ let bot = new Bot({
 bot.on('message', (payload, reply) => {
   console.log('Received message from ' + payload.sender.id)
   if (!payload.message.attachments || !payload.message.attachments[0] || payload.message.attachments[0].type !== 'audio') {
-    return reply({ text: 'That\'s not an audio message. Send me an audio message by pressing the mic button at the bottom of the app.'})
+    return reply({
+      text: 'That\'s not an audio message. Send me an audio message by pressing the mic button at the bottom of the app.'
+    })
   }
 
   reply({ text: 'Identifying song... this might take a few seconds.' })
@@ -26,7 +28,11 @@ bot.on('message', (payload, reply) => {
     key: ACR_ACCESS_KEY,
     secret: ACR_ACCESS_SECRET
   }, (err, song) => {
-    if (err && err.message === 'NO_MATCH') return reply({ text: 'I couldn\'t identify this song.'})
+    if (err && err.message === 'NO_MATCH') {
+      return reply({
+        text: 'I couldn\'t identify this song.'
+      })
+    }
     if (err) throw err
 
     let element = {
