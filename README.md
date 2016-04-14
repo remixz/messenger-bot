@@ -16,6 +16,8 @@ npm install messenger-bot
 
 ## Example
 
+See more examples in [the examples folder.](https://github.com/remixz/messenger-bot/tree/master/example)
+
 ```js
 const http = require('http')
 const Bot = require('messenger-bot')
