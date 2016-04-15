@@ -8,6 +8,7 @@ const FB_TOKEN = 'page access token'
 const FB_VERIFY = 'verification string'
 const ACR_ACCESS_KEY = 'ACR access key'
 const ACR_ACCESS_SECRET = 'ACR access secret'
+const ACR_HOST = 'eu-west-1.api.acrcloud.com'
 
 let bot = new Bot({
   token: FB_TOKEN,
@@ -26,7 +27,8 @@ bot.on('message', (payload, reply) => {
   recognizeSong({
     message: payload.message,
     key: ACR_ACCESS_KEY,
-    secret: ACR_ACCESS_SECRET
+    secret: ACR_ACCESS_SECRET,
+    host: ACR_HOST
   }, (err, song) => {
     if (err && err.message === 'NO_MATCH') {
       return reply({

@@ -16,7 +16,7 @@ module.exports = function recognizeSong (opts, cb) {
     let signingString = `POST\n/v1/identify\n${opts.key}\naudio\n1\n${timestamp}`
     let signature = crypto.createHmac('sha1', opts.secret).update(new Buffer(signingString, 'utf-8')).digest('base64')
     request({
-      uri: 'http://ap-southeast-1.api.acrcloud.com/v1/identify',
+      uri: `http://${opts.host}/v1/identify`,
       method: 'POST',
       formData: {
         access_key: opts.key,
