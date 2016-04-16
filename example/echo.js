@@ -3,7 +3,8 @@ const Bot = require('../')
 
 let bot = new Bot({
   token: 'PAGE_TOKEN',
-  verify: 'VERIFY_TOKEN'
+  verify: 'VERIFY_TOKEN',
+  app_secret: 'APP_SECRET'
 })
 
 bot.on('message', (payload, reply) => {

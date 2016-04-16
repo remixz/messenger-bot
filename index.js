@@ -3,6 +3,7 @@ const url = require('url')
 const qs = require('querystring')
 const EventEmitter = require('events').EventEmitter
 const request = require('request')
+const crypto = require('crypto')
 
 class Bot extends EventEmitter {
   constructor (opts) {
@@ -13,6 +14,9 @@ class Bot extends EventEmitter {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
     this.token = opts.token
+    if (opts.app_secret) {
+      this.app_secret = opts.app_secret
+    }
     this.verify_token = opts.verify || false
   }
 
@@ -76,7 +80,6 @@ class Bot extends EventEmitter {
       if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
       if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
       if (req.method !== 'POST') return res.end()
-
       let body = ''
 
       req.on('data', (chunk) => {
@@ -84,6 +87,20 @@ class Bot extends EventEmitter {
       })
 
       req.on('end', () => {
+        // check message integrity
+        if (this.app_secret) {
+          let hmac = crypto.createHmac('sha1', this.app_secret)
+          hmac.setEncoding('hex')
+          hmac.write(body)
+          hmac.end()
+
+          if (req.headers['x-hub-signature'] !== 'sha1=' + hmac.read()) {
+            // we should probably write BadRequest or similar header
+            res.end()
+            return
+          }
+        }
+
         let parsed = JSON.parse(body)
 
         let entries = parsed.entry
