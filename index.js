@@ -14,9 +14,7 @@ class Bot extends EventEmitter {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
     this.token = opts.token
-    if (opts.app_secret) {
-      this.app_secret = opts.app_secret
-    }
+    this.app_secret = opts.app_secret || false
     this.verify_token = opts.verify || false
   }
 
