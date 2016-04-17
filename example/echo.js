@@ -1,3 +1,4 @@
+'use strict'
 const http = require('http')
 const Bot = require('../')
 
@@ -5,6 +6,10 @@ let bot = new Bot({
   token: 'PAGE_TOKEN',
   verify: 'VERIFY_TOKEN',
   app_secret: 'APP_SECRET'
+})
+
+bot.on('error', (err) => {
+  console.log(err.message)
 })
 
 bot.on('message', (payload, reply) => {
