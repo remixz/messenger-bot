@@ -4,11 +4,10 @@ const http = require('http')
 const request = require('request')
 const Bot = require('../')
 
-let bot = new Bot({
-  token: 'foo'
-})
-
 tap.test('basic initialization', (t) => {
+  let bot
+
+  t.doesNotThrow(() => { bot = new Bot({ token: 'foo' }) }, 'creating bot does not throw')
   t.type(bot, 'object', 'bot class is initiated correctly')
   t.equals(bot.token, 'foo', 'bot token is stored correctly')
   t.type(bot.middleware, 'function', 'bot.middleware is a function')
@@ -19,7 +18,16 @@ tap.test('basic initialization', (t) => {
   t.end()
 })
 
+tap.test('missing token paramater', (t) => {
+  t.throws(() => new Bot(), 'bot without token specified should throw')
+  t.end()
+})
+
 tap.test('middleware runs', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
   let server = http.createServer(bot.middleware()).listen(0, () => {
     let address = server.address()
 

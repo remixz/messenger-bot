@@ -4,7 +4,8 @@
   "description": "FB Messenger Platform client",
   "main": "index.js",
   "scripts": {
-    "test": "standard && tap test/*.js"
+    "test": "standard && nyc tap test/*.js",
+    "travis-coveralls": "npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,9 @@
     "request": "^2.71.0"
   },
   "devDependencies": {
+    "coveralls": "^2.11.9",
+    "nock": "^8.0.0",
+    "nyc": "^6.4.0",
     "standard": "^6.0.8",
     "tap": "^5.7.1"
   }
