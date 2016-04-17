@@ -58,26 +58,12 @@ class Bot extends EventEmitter {
     })
   }
 
-  verify (token) {
-    return (req, res) => {
-      if (req.method === 'GET') {
-        let query = qs.parse(url.parse(req.url).query)
-
-        if (query['hub.verify_token'] === token) {
-          return res.end(query['hub.challenge'])
-        }
-
-        return res.end('Error, wrong validation token')
-      }
-    }
-  }
-
   middleware () {
     return (req, res) => {
       // we always write 200, otherwise facebook will keep retrying the request
       res.writeHead(200, { 'Content-Type': 'application/json' })
       if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
-      if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
+      if (this.verify_token && req.method === 'GET') return this._verify(req, res)
       if (req.method !== 'POST') return res.end()
 
       let body = ''
@@ -124,6 +110,16 @@ class Bot extends EventEmitter {
         res.end(JSON.stringify({status: 'ok'}))
       })
     }
+  }
+
+  _verify (req, res) {
+    let query = qs.parse(url.parse(req.url).query)
+
+    if (query['hub.verify_token'] === this.verify_token) {
+      return res.end(query['hub.challenge'])
+    }
+
+    return res.end('Error, wrong validation token')
   }
 
   _handleEvent (type, event) {

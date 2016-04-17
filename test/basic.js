@@ -9,14 +9,10 @@ let bot = new Bot({
 })
 
 tap.test('basic initialization', (t) => {
-  t.plan(8)
-
   t.type(bot, 'object', 'bot class is initiated correctly')
   t.equals(bot.token, 'foo', 'bot token is stored correctly')
   t.type(bot.middleware, 'function', 'bot.middleware is a function')
   t.type(bot.middleware(), 'function', 'bot.middleware returns a function')
-  t.type(bot.verify, 'function', 'bot.verify is a function')
-  t.type(bot.verify('foo'), 'function', 'bot.verify returns a function')
   t.type(bot.sendMessage, 'function', 'bot.sendMessage is a function')
   t.type(bot.getProfile, 'function', 'bot.getProfile is a function')
 
