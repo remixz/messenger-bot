@@ -55,6 +55,7 @@ Returns a new Bot instance.
 
 * `token` - String: Your Page Access Token, found in your App settings. Required.
 * `verify` - String: A verification token for the first-time setup of your webhook. If specified, `bot.middleware()` will also mount the `bot.verify()` middleware, as seen below. Optional.
+* `app_secret` - String: Your App Secret token used for message integrity check. If specified, every POST request  will be tested for spoofing. Optional.
 
 #### `bot.verify(secret)`
 

@@ -3,6 +3,7 @@ const url = require('url')
 const qs = require('querystring')
 const EventEmitter = require('events').EventEmitter
 const request = require('request')
+const crypto = require('crypto')
 
 class Bot extends EventEmitter {
   constructor (opts) {
@@ -13,6 +14,7 @@ class Bot extends EventEmitter {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
     this.token = opts.token
+    this.app_secret = opts.app_secret || false
     this.verify_token = opts.verify || false
   }
 
@@ -72,10 +74,13 @@ class Bot extends EventEmitter {
 
   middleware () {
     return (req, res) => {
-      res.writeHead(200, { 'Content-Type': 'application/json' })
-      if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
-      if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
-      if (req.method !== 'POST') return res.end()
+      if (req.method !== 'POST') {
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
+        else if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
+        else res.end()
+        return
+      }
 
       let body = ''
 
@@ -84,8 +89,22 @@ class Bot extends EventEmitter {
       })
 
       req.on('end', () => {
-        let parsed = JSON.parse(body)
+        // check message integrity
+        if (this.app_secret) {
+          let hmac = crypto.createHmac('sha1', this.app_secret)
+          hmac.setEncoding('hex')
+          hmac.write(body)
+          hmac.end()
 
+          if (req.headers['x-hub-signature'] !== 'sha1=' + hmac.read()) {
+            // we should probably write BadRequest or similar header
+            res.writeHead(400)
+            res.end()
+            return
+          }
+        }
+
+        let parsed = JSON.parse(body)
         let entries = parsed.entry
 
         entries.forEach((entry) => {
@@ -108,7 +127,7 @@ class Bot extends EventEmitter {
             }
           })
         })
-
+        res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify({status: 'ok'}))
       })
     }
