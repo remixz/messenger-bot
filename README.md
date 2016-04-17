@@ -1,10 +1,11 @@
 # messenger-bot
 [![Build Status](https://travis-ci.org/remixz/messenger-bot.svg?branch=master)](https://travis-ci.org/remixz/messenger-bot)
+[![Coverage Status](https://coveralls.io/repos/github/remixz/messenger-bot/badge.svg?branch=master)](https://coveralls.io/github/remixz/messenger-bot?branch=master)
 [![npm version](https://img.shields.io/npm/v/messenger-bot.svg)](https://www.npmjs.com/package/messenger-bot)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 
-A Node client for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform). *Note: Still a WIP! Fully functional, but needs some proper testing.*
+A Node client for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform).
 
 Requires Node >=4.0.0.
 
@@ -73,7 +74,7 @@ let bot = new Bot({
 http.createServer(bot.middleware()).listen(3000)
 ```
 
-As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running. If `verify` is specified in the bot options, it will mount a handler for `GET` requests that verifies the webhook. 
+As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running. If `verify` is specified in the bot options, it will mount a handler for `GET` requests that verifies the webhook.
 
 #### `bot.sendMessage(recipient, payload, callback)`
 
