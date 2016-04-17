@@ -15,6 +15,10 @@ let bot = new Bot({
   verify: FB_VERIFY
 })
 
+bot.on('error', (err) => {
+  console.log(err.message)
+})
+
 bot.on('message', (payload, reply) => {
   console.log('Received message from ' + payload.sender.id)
   if (!payload.message.attachments || !payload.message.attachments[0] || payload.message.attachments[0].type !== 'audio') {

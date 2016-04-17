@@ -74,13 +74,11 @@ class Bot extends EventEmitter {
 
   middleware () {
     return (req, res) => {
-      if (req.method !== 'POST') {
-        res.writeHead(200, { 'Content-Type': 'application/json' })
-        if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
-        else if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
-        else res.end()
-        return
-      }
+      // we always write 200, otherwise facebook will keep retrying the request
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      if (req.url === '/_status') return res.end(JSON.stringify({status: 'ok'}))
+      if (this.verify_token && req.method === 'GET') return this.verify(this.verify_token)(req, res)
+      if (req.method !== 'POST') return res.end()
 
       let body = ''
 
@@ -92,15 +90,11 @@ class Bot extends EventEmitter {
         // check message integrity
         if (this.app_secret) {
           let hmac = crypto.createHmac('sha1', this.app_secret)
-          hmac.setEncoding('hex')
-          hmac.write(body)
-          hmac.end()
+          hmac.update(body)
 
-          if (req.headers['x-hub-signature'] !== 'sha1=' + hmac.read()) {
-            // we should probably write BadRequest or similar header
-            res.writeHead(400)
-            res.end()
-            return
+          if (req.headers['x-hub-signature'] !== `sha1=${hmac.digest('hex')}`) {
+            this.emit('error', new Error('Message integrity check failed'))
+            return res.end(JSON.stringify({status: 'not ok', error: 'Message integrity check failed'}))
           }
         }
 
@@ -127,7 +121,6 @@ class Bot extends EventEmitter {
             }
           })
         })
-        res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify({status: 'ok'}))
       })
     }
