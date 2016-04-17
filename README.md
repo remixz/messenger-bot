@@ -54,27 +54,8 @@ Returns a new Bot instance.
 `opts` - Object
 
 * `token` - String: Your Page Access Token, found in your App settings. Required.
-* `verify` - String: A verification token for the first-time setup of your webhook. If specified, `bot.middleware()` will also mount the `bot.verify()` middleware, as seen below. Optional.
+* `verify` - String: A verification token for the first-time setup of your webhook. Optional, but will be required by Facebook when you first set up your webhook.
 * `app_secret` - String: Your App Secret token used for message integrity check. If specified, every POST request  will be tested for spoofing. Optional.
-
-#### `bot.verify(secret)`
-
-A middleware for verifying your bot's webhook. Returns a function.
-
-When creating your bot, Facebook requires you to do a one-time verification with a secret string. You'll need to have the app running with this middleware when setting up your webhook. I recommend deploying a boilerplate app with something like this:
-
-```js
-const http = require('http')
-const Bot = require('messenger-bot')
-
-let bot = new Bot({
-  token: 'PAGE_TOKEN'
-})
-
-http.createServer(bot.verify('YOUR_SECRET_HERE')).listen(3000)
-```
-
-Then set up your webhook, and once it's verified, you can deploy your actual bot.
 
 #### `bot.middleware()`
 
@@ -85,13 +66,14 @@ const http = require('http')
 const Bot = require('messenger-bot')
 
 let bot = new Bot({
-  token: 'PAGE_TOKEN'
+  token: 'PAGE_TOKEN',
+  verify: 'VERIFY_TOKEN'
 })
 
 http.createServer(bot.middleware()).listen(3000)
 ```
 
-As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running.
+As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running. If `verify` is specified in the bot options, it will mount a handler for `GET` requests that verifies the webhook. 
 
 #### `bot.sendMessage(recipient, payload, callback)`
 
