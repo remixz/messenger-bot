@@ -25,7 +25,7 @@ Run this example in the cloud: [![Nitrous Quickstart](https://nitrous-image-icon
 
 ```js
 const http = require('http')
-const Bot = require('../')
+const Bot = require('messenger-bot')
 
 let bot = new Bot({
   token: 'PAGE_TOKEN',
@@ -53,7 +53,6 @@ bot.on('message', (payload, reply) => {
 
 http.createServer(bot.middleware()).listen(3000)
 console.log('Echo bot server running at port 3000.')
-
 ```
 
 ## Usage
