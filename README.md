@@ -110,6 +110,19 @@ Returns profile information of the `target`, called in the `callback`. See [User
 }
 ```
 
+#### `bot._handleMessage(payload)`
+
+The underlying method used by `bot.middleware()` to parse the message payload, and fire the appropriate events. Use this if you've already implemented your own middleware or route handlers to receive the webhook request, and just want to fire the events on the bot instance. See [the echo bot implemented in Express](https://github.com/remixz/messenger-bot/blob/master/example/echo-express.js) for an example.
+
+* `payload` - Object: The payload sent by Facebook to the webhook.
+
+#### `bot._verify(req, res)`
+
+The underlying method used by `bot.middleware()` for the initial webhook verification. Use this if you've already implemented your own middleware or route handlers, and wish to handle the request without implementing `bot.middleware()`. See [the echo bot implemented in Express](https://github.com/remixz/messenger-bot/blob/master/example/echo-express.js) for an example.
+
+* `req` - Request: The `http` request object.
+* `res` - Response: The `http` response object.
+
 ### Events
 
 #### bot.on('message', (payload, reply))
