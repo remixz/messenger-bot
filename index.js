@@ -85,31 +85,36 @@ class Bot extends EventEmitter {
         }
 
         let parsed = JSON.parse(body)
-        let entries = parsed.entry
+        this._handleMessage(parsed)
 
-        entries.forEach((entry) => {
-          let events = entry.messaging
-
-          events.forEach((event) => {
-            // handle inbound messages
-            if (event.message) {
-              this._handleEvent('message', event)
-            }
-
-            // handle postbacks
-            if (event.postback) {
-              this._handleEvent('postback', event)
-            }
-
-            // handle message delivered
-            if (event.delivery) {
-              this._handleEvent('delivery', event)
-            }
-          })
-        })
         res.end(JSON.stringify({status: 'ok'}))
       })
     }
+  }
+
+  _handleMessage (json) {
+    let entries = json.entry
+
+    entries.forEach((entry) => {
+      let events = entry.messaging
+
+      events.forEach((event) => {
+        // handle inbound messages
+        if (event.message) {
+          this._handleEvent('message', event)
+        }
+
+        // handle postbacks
+        if (event.postback) {
+          this._handleEvent('postback', event)
+        }
+
+        // handle message delivered
+        if (event.delivery) {
+          this._handleEvent('delivery', event)
+        }
+      })
+    })
   }
 
   _verify (req, res) {
