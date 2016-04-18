@@ -1,0 +1,10 @@
+{
+  "template": "nodejs",
+  "ports": [3000],
+  "name": "messenger-bot",
+  "description": "A Node client for the Facebook Messenger Platform",
+  "scripts": {
+    "post-create": "echo 'running npm install - this might take awhile...' && npm install && sed -i 's/listen(3000)/listen(3000, \"0.0.0.0\")/g' example/echo.js",
+    "Start Messenger Echo Bot": "cd ~/code/messenger-bot && node example/echo.js"
+  }
+}

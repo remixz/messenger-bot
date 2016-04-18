@@ -19,12 +19,22 @@ npm install messenger-bot
 
 See more examples in [the examples folder.](https://github.com/remixz/messenger-bot/tree/master/example)
 
+Run this example in the cloud: [![Nitrous Quickstart](https://nitrous-image-icons.s3.amazonaws.com/quickstart.svg)](https://www.nitrous.io/quickstart)
+* Setup `PAGE_TOKEN`, `VERIFY_TOKEN`, `APP_SECRET` and start the example by `Run > Start Messenger Echo Bot`.
+* Your Webhook URL is available at `Preview > 3000` in the IDE.
+
 ```js
 const http = require('http')
-const Bot = require('messenger-bot')
+const Bot = require('../')
 
 let bot = new Bot({
-  token: 'PAGE_TOKEN'
+  token: 'PAGE_TOKEN',
+  verify: 'VERIFY_TOKEN',
+  app_secret: 'APP_SECRET'
+})
+
+bot.on('error', (err) => {
+  console.log(err.message)
 })
 
 bot.on('message', (payload, reply) => {
@@ -42,6 +52,8 @@ bot.on('message', (payload, reply) => {
 })
 
 http.createServer(bot.middleware()).listen(3000)
+console.log('Echo bot server running at port 3000.')
+
 ```
 
 ## Usage
