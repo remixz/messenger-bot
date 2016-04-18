@@ -1,7 +1,7 @@
 'use strict'
 const http = require('http')
 const express = require('express')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const Bot = require('../')
 
 let bot = new Bot({
@@ -30,10 +30,10 @@ bot.on('message', (payload, reply) => {
 
 let app = express()
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
-}));
+}))
 
 app.get('/', (req, res) => {
   return bot._verify(req, res)
