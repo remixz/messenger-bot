@@ -195,3 +195,42 @@ tap.test('POST webhook with delivery receipt', (t) => {
     server.close()
   })
 })
+
+tap.test('POST webhook with authentication callback', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
+  bot.on('error', (err) => {
+    t.error(err, 'bot instance returned error')
+    t.end()
+  })
+
+  bot.on('authentication', (payload, reply) => {
+    t.type(payload, 'object', 'authentication should be an object')
+    t.type(reply, 'function', 'reply convenience function should exist')
+    t.equals(payload.optin.ref, 'bar', 'correct data ref was sent')
+  })
+
+  let server = http.createServer(bot.middleware()).listen(0, () => {
+    let address = server.address()
+
+    request({
+      url: `http://localhost:${address.port}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: '{"object":"page","entry":[{"id":510249619162304,"time":1461167227231,"messaging":[{"sender":{"id":1066835436691078},"recipient":{"id":510249619162304},"timestamp":1461167227231,"optin":{"ref":"bar"}}]}]}'
+    }, (err, res, body) => {
+      t.error(err, 'response should not error')
+      t.equals(res.statusCode, 200, 'request should return 200 status code')
+      t.deepEquals(JSON.parse(body), { status: 'ok' }, 'response should be okay')
+      t.end()
+    })
+  })
+
+  t.tearDown(() => {
+    server.close()
+  })
+})
