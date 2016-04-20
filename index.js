@@ -113,6 +113,11 @@ class Bot extends EventEmitter {
         if (event.delivery) {
           this._handleEvent('delivery', event)
         }
+
+        // handle authentication
+        if (event.optin) {
+          this._handleEvent('authentication', event)
+        }
       })
     })
   }
