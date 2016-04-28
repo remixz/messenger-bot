@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  bot._handleMessage(req.body.entry)
+  bot._handleMessage(req.body)
   res.end(JSON.stringify({status: 'ok'}))
 })
 
