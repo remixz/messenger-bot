@@ -11,7 +11,10 @@ tap.test('bot.getProfile() - successful request', (t) => {
   let response = {
     first_name: 'Cool',
     last_name: 'Kid',
-    profile_pic: 'url'
+    profile_pic: 'url',
+    locale: 'en',
+    timezone: 'PST',
+    gender: 'M'
   }
 
   nock('https://graph.facebook.com').get('/v2.6/1').query({
