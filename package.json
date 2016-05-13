@@ -1,6 +1,6 @@
 {
   "name": "messenger-bot",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "FB Messenger Platform client",
   "main": "index.js",
   "scripts": {
