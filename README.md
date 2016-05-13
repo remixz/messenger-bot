@@ -106,7 +106,10 @@ Returns profile information of the `target`, called in the `callback`. See [User
 {
   "first_name": "Zach",
   "last_name": "Bruggeman",
-  "profile_pic": "<url to profile picture>"
+  "profile_pic": "<url to profile picture>",
+  "locale": "en",
+  "timezone": "PST",
+  "gender": "M"
 }
 ```
 
@@ -156,6 +159,19 @@ bot.on('postback', (payload, reply) => {
 Triggered when a message has been successfully delivered.
 
 * `payload` - Object: An object containing the delivery event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#message_delivery) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+
+```js
+bot.on('delivery', (payload, reply) => {
+  reply({ text: 'hey!'}, (err, info) => {})
+})
+```
+
+#### bot.on('authentication', (payload, reply))
+
+Triggered when a user authenticates with the "Send to Messenger" plugin.
+
+* `payload` - Object: An object containing the authentication event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#auth) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
 
 ```js
