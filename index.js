@@ -58,9 +58,9 @@ class Bot extends EventEmitter {
     })
   }
 
-  setTyping(recipient, typing, cb) {
+  setTyping (recipient, typing, cb) {
     if (!cb) cb = Function.prototype
-    var typing_status = typing ? 'typing_on' : 'typing_off';
+    var typingStatus = typing ? 'typing_on' : 'typing_off'
 
     request({
       method: 'POST',
@@ -72,7 +72,7 @@ class Bot extends EventEmitter {
         recipient: {
           id: recipient
         },
-        sender_action: typing_status
+        sender_action: typingStatus
       }
     }, (err, res, body) => {
       if (err) return cb(err)
@@ -82,7 +82,7 @@ class Bot extends EventEmitter {
     })
   }
 
-  setThreadSettings (thread_state, call_to_actions, cb) {
+  setThreadSettings (threadState, callToActions, cb) {
     if (!cb) cb = Function.prototype
 
     request({
@@ -93,8 +93,8 @@ class Bot extends EventEmitter {
       },
       json: {
         setting_type: 'call_to_actions',
-        thread_state: thread_state,
-        call_to_actions: call_to_actions
+        thread_state: threadState,
+        call_to_actions: callToActions
       }
     }, (err, res, body) => {
       if (err) return cb(err)
@@ -107,13 +107,13 @@ class Bot extends EventEmitter {
   setGetStartedButton (payload, cb) {
     if (!cb) cb = Function.prototype
 
-    return this.setThreadSettings('new_thread', payload, cb);
+    return this.setThreadSettings('new_thread', payload, cb)
   }
 
-  setPersistentMenu(payload, cb) {
+  setPersistentMenu (payload, cb) {
     if (!cb) cb = Function.prototype
 
-    return this.setThreadSettings('existing_thread', payload, cb);
+    return this.setThreadSettings('existing_thread', payload, cb)
   }
 
   middleware () {
@@ -189,9 +189,9 @@ class Bot extends EventEmitter {
 
         // handle account_linking
         if (event.account_linking && event.account_linking.status) {
-          if (event.account_linking.status == 'linked') {
+          if (event.account_linking.status === 'linked') {
             this._handleEvent('accountLinked', event)
-          } else if (event.account_linking.status == 'unlinked') {
+          } else if (event.account_linking.status === 'unlinked') {
             this._handleEvent('accountUnlinked', event)
           }
         }
