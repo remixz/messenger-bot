@@ -14,9 +14,10 @@ tap.test('POST webhook with no signature check', (t) => {
     t.end()
   })
 
-  bot.on('message', (payload, reply) => {
+  bot.on('message', (payload, reply, actions) => {
     t.type(payload, 'object', 'payload should be an object')
     t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
     t.equals(payload.message.text, 'Test äëï', 'correct message was sent')
   })
 
@@ -54,9 +55,10 @@ tap.test('POST webhook with signature check', (t) => {
     t.end()
   })
 
-  bot.on('message', (payload, reply) => {
+  bot.on('message', (payload, reply, actions) => {
     t.type(payload, 'object', 'payload should be an object')
     t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
     t.equals(payload.message.text, 'Test äëï', 'correct message was sent')
   })
 
@@ -118,6 +120,46 @@ tap.test('POST webhook with incorrect signature', (t) => {
   })
 })
 
+tap.test('POST webhook with echo', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
+  bot.on('error', (err) => {
+    t.error(err, 'bot instance returned error')
+    t.end()
+  })
+
+  bot.on('echo', (payload, reply, actions) => {
+    t.type(payload, 'object', 'payload should be an object')
+    t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
+    t.equals(payload.message.text, 'Test äëï', 'correct echo text was sent')
+  })
+
+  let server = http.createServer(bot.middleware()).listen(0, () => {
+    let address = server.address()
+
+    request({
+      url: `http://localhost:${address.port}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: '{"object":"page","entry":[{"id":1751036168465324,"time":1460923697656,"messaging":[{"sender":{"id":"251415921884267"},"recipient":{"id":961373540645425},"timestamp":1474195344285,"message":{"is_echo":true,"app_id":518384185035814,"mid":"mid.1474195344232:c667d9bc3076277d14","seq":6546,"text":"Test \\u00e4\\u00eb\\u00ef"}}]}]}'
+    }, (err, res, body) => {
+      t.error(err, 'response should not error')
+      t.equals(res.statusCode, 200, 'request should return 200 status code')
+      t.deepEquals(JSON.parse(body), { status: 'ok' }, 'response should be okay')
+      t.end()
+    })
+  })
+
+  t.tearDown(() => {
+    server.close()
+  })
+})
+
 tap.test('POST webhook with postback', (t) => {
   let bot = new Bot({
     token: 'foo'
@@ -128,9 +170,10 @@ tap.test('POST webhook with postback', (t) => {
     t.end()
   })
 
-  bot.on('postback', (payload, reply) => {
+  bot.on('postback', (payload, reply, actions) => {
     t.type(payload, 'object', 'payload should be an object')
     t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
     t.equals(payload.postback.payload, 'Test äëï', 'correct postback payload was sent')
   })
 
@@ -167,9 +210,10 @@ tap.test('POST webhook with delivery receipt', (t) => {
     t.end()
   })
 
-  bot.on('postback', (payload, reply) => {
+  bot.on('postback', (payload, reply, actions) => {
     t.type(payload, 'object', 'payload should be an object')
     t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
     t.equals(payload.delivery.watermark, '1460923697635', 'correct delivery receipt watermark was sent')
   })
 
@@ -206,9 +250,10 @@ tap.test('POST webhook with authentication callback', (t) => {
     t.end()
   })
 
-  bot.on('authentication', (payload, reply) => {
+  bot.on('authentication', (payload, reply, actions) => {
     t.type(payload, 'object', 'authentication should be an object')
     t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
     t.equals(payload.optin.ref, 'bar', 'correct data ref was sent')
   })
 

@@ -58,9 +58,8 @@ class Bot extends EventEmitter {
     })
   }
 
-  setTyping (recipient, typing, cb) {
+  sendSenderAction (recipient, senderAction, cb) {
     if (!cb) cb = Function.prototype
-    var typingStatus = typing ? 'typing_on' : 'typing_off'
 
     request({
       method: 'POST',
@@ -72,7 +71,7 @@ class Bot extends EventEmitter {
         recipient: {
           id: recipient
         },
-        sender_action: typingStatus
+        sender_action: senderAction
       }
     }, (err, res, body) => {
       if (err) return cb(err)
@@ -104,6 +103,27 @@ class Bot extends EventEmitter {
     })
   }
 
+  removeThreadSettings (threadState, cb) {
+    if (!cb) cb = Function.prototype
+
+    request({
+      method: 'DELETE',
+      uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+      qs: {
+        access_token: this.token
+      },
+      json: {
+        setting_type: 'call_to_actions',
+        thread_state: threadState
+      }
+    }, (err, res, body) => {
+      if (err) return cb(err)
+      if (body.error) return cb(body.error)
+
+      cb(null, body)
+    })
+  }
+
   setGetStartedButton (payload, cb) {
     if (!cb) cb = Function.prototype
 
@@ -114,6 +134,18 @@ class Bot extends EventEmitter {
     if (!cb) cb = Function.prototype
 
     return this.setThreadSettings('existing_thread', payload, cb)
+  }
+
+  removeGetStartedButton (cb) {
+    if (!cb) cb = Function.prototype
+
+    return this.removeThreadSettings('new_thread', cb)
+  }
+
+  removePersistentMenu (cb) {
+    if (!cb) cb = Function.prototype
+
+    return this.removeThreadSettings('existing_thread', cb)
   }
 
   middleware () {
@@ -157,14 +189,13 @@ class Bot extends EventEmitter {
       let events = entry.messaging
 
       events.forEach((event) => {
-        // handle inbound messages
+        // handle inbound messages and echos
         if (event.message) {
-          this._handleEvent('message', event)
-        }
-
-        // handle echos
-        if (event.message && event.message.is_echo) {
-          this._handleEvent('echo', event)
+          if (event.message.is_echo) {
+            this._handleEvent('echo', event)
+          } else {
+            this._handleEvent('message', event)
+          }
         }
 
         // handle postbacks
@@ -199,6 +230,16 @@ class Bot extends EventEmitter {
     })
   }
 
+  _getActionsObject (event) {
+    return {
+      setTyping: (typingState, cb) => {
+        let senderTypingAction = typingState ? 'typing_on' : 'typing_off'
+        this.sendSenderAction(event.sender.id, senderTypingAction, cb)
+      },
+      markRead: this.sendSenderAction.bind(this, event.sender.id, 'mark_seen')
+    }
+  }
+
   _verify (req, res) {
     let query = qs.parse(url.parse(req.url).query)
 
@@ -210,7 +251,7 @@ class Bot extends EventEmitter {
   }
 
   _handleEvent (type, event) {
-    this.emit(type, event, this.sendMessage.bind(this, event.sender.id))
+    this.emit(type, event, this.sendMessage.bind(this, event.sender.id), this._getActionsObject(event))
   }
 }
 
