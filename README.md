@@ -103,6 +103,15 @@ Sends the sender action `senderAction` to the target `recipient`, and calls the 
 * `senderAction` - String: The sender action to execute. Can be one of: `typing_on`, 'typing_off', 'mark_seen'. See the [Send API reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference) for more information.
 * `callback` - Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.setGetStartedButton(payload, callback)`
+#### `bot.setPersistentMenu(payload, callback)`
+
+Sets settings for the Get Started Button / Persistent Menu. See the [Thread Settings Reference](https://developers.facebook.com/docs/messenger-platform/thread-settings) `call_to_actions` sections for what to put in the `payload`.
+
+#### `bot.removeGetStartedButton(callback)`
+#### `bot.removePersistentMenu(callback)`
+
+Removes the Get Started Button / Persistent Menu.
 
 #### `bot.getProfile(target, callback)`
 
