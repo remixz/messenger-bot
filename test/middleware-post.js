@@ -279,3 +279,123 @@ tap.test('POST webhook with authentication callback', (t) => {
     server.close()
   })
 })
+
+tap.test('POST webhook with read callback', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
+  bot.on('error', (err) => {
+    t.error(err, 'bot instance returned error')
+    t.end()
+  })
+
+  bot.on('read', (payload, reply, actions) => {
+    t.type(payload, 'object', 'authentication should be an object')
+    t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
+    t.equals(payload.read.watermark, 1461167227231, 'correct message watermark was sent')
+  })
+
+  let server = http.createServer(bot.middleware()).listen(0, () => {
+    let address = server.address()
+
+    request({
+      url: `http://localhost:${address.port}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: '{"object":"page","entry":[{"id":510249619162304,"time":1461167227231,"messaging":[{"sender":{"id":1066835436691078},"recipient":{"id":510249619162304},"timestamp":1461167227231,"read":{"watermark":1461167227231}}]}]}'
+    }, (err, res, body) => {
+      t.error(err, 'response should not error')
+      t.equals(res.statusCode, 200, 'request should return 200 status code')
+      t.deepEquals(JSON.parse(body), { status: 'ok' }, 'response should be okay')
+      t.end()
+    })
+  })
+
+  t.tearDown(() => {
+    server.close()
+  })
+})
+
+tap.test('POST webhook with account_linking (linked) callback', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
+  bot.on('error', (err) => {
+    t.error(err, 'bot instance returned error')
+    t.end()
+  })
+
+  bot.on('accountLinked', (payload, reply, actions) => {
+    t.type(payload, 'object', 'authentication should be an object')
+    t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
+    t.equals(payload.account_linking.status, 'linked', 'correct linking status was sent')
+  })
+
+  let server = http.createServer(bot.middleware()).listen(0, () => {
+    let address = server.address()
+
+    request({
+      url: `http://localhost:${address.port}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: '{"object":"page","entry":[{"id":510249619162304,"time":1461167227231,"messaging":[{"sender":{"id":1066835436691078},"recipient":{"id":510249619162304},"timestamp":1461167227231,"account_linking":{"status":"linked"}}]}]}'
+    }, (err, res, body) => {
+      t.error(err, 'response should not error')
+      t.equals(res.statusCode, 200, 'request should return 200 status code')
+      t.deepEquals(JSON.parse(body), { status: 'ok' }, 'response should be okay')
+      t.end()
+    })
+  })
+
+  t.tearDown(() => {
+    server.close()
+  })
+})
+
+tap.test('POST webhook with account_linking (unlinked) callback', (t) => {
+  let bot = new Bot({
+    token: 'foo'
+  })
+
+  bot.on('error', (err) => {
+    t.error(err, 'bot instance returned error')
+    t.end()
+  })
+
+  bot.on('accountUnlinked', (payload, reply, actions) => {
+    t.type(payload, 'object', 'authentication should be an object')
+    t.type(reply, 'function', 'reply convenience function should exist')
+    t.type(actions, 'object', 'actions should be an object')
+    t.equals(payload.account_linking.status, 'unlinked', 'correct linking status was sent')
+  })
+
+  let server = http.createServer(bot.middleware()).listen(0, () => {
+    let address = server.address()
+
+    request({
+      url: `http://localhost:${address.port}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: '{"object":"page","entry":[{"id":510249619162304,"time":1461167227231,"messaging":[{"sender":{"id":1066835436691078},"recipient":{"id":510249619162304},"timestamp":1461167227231,"account_linking":{"status":"unlinked"}}]}]}'
+    }, (err, res, body) => {
+      t.error(err, 'response should not error')
+      t.equals(res.statusCode, 200, 'request should return 200 status code')
+      t.deepEquals(JSON.parse(body), { status: 'ok' }, 'response should be okay')
+      t.end()
+    })
+  })
+
+  t.tearDown(() => {
+    server.close()
+  })
+})
