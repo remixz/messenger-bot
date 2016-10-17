@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.4.0
+
+Added support for new Messenger Platform features (#26). This includes:
+  * `bot.setGetStartedButton`
+  * `bot.setPersistentMenu`
+  * `bot.sendSenderAction`
+
+See the README for full documentation.
+
 ## 2.0.0
 
 * [BREAKING] Removed `bot.verify()` middleware. Instead, specify the option `verify` when creating the bot instance, and the middleware will be automatically set up. Example:
