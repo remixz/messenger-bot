@@ -95,6 +95,15 @@ Sends a message with the `payload` to the target `recipient`, and calls the call
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
 * `callback` - Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.sendSenderAction(recipient, senderAction, callback)`
+
+Sends the sender action `senderAction` to the target `recipient`, and calls the callback.
+
+* `recipient` - Number: The Facebook ID of the intended recipient.
+* `senderAction` - String: The sender action to execute. Can be one of: `typing_on`, 'typing_off', 'mark_seen'. See the [Send API reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference) for more information.
+* `callback` - Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+
+
 #### `bot.getProfile(target, callback)`
 
 Returns profile information of the `target`, called in the `callback`. See [User Profile API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#user_profile_request).
@@ -128,7 +137,7 @@ The underlying method used by `bot.middleware()` for the initial webhook verific
 
 ### Events
 
-#### bot.on('message', (payload, reply))
+#### bot.on('message', (payload, reply, actions))
 
 Triggered when a message is sent to the bot.
 
@@ -136,46 +145,51 @@ Triggered when a message is sent to the bot.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
 
 ```js
-bot.on('message', (payload, reply) => {
+bot.on('message', (payload, reply, actions) => {
   reply({ text: 'hey!'}, (err, info) => {})
 })
 ```
 
-#### bot.on('postback', (payload, reply))
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+#### bot.on('postback', (payload, reply, actions))
 
 Triggered when a postback is triggered by the sender in Messenger.
 
 * `payload` - Object: An object containing the postback event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#postback) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
 
 ```js
-bot.on('postback', (payload, reply) => {
+bot.on('postback', (payload, reply, actions) => {
   reply({ text: 'hey!'}, (err, info) => {})
 })
 ```
 
-#### bot.on('delivery', (payload, reply))
+#### bot.on('delivery', (payload, reply, actions))
 
 Triggered when a message has been successfully delivered.
 
 * `payload` - Object: An object containing the delivery event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#message_delivery) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
 
 ```js
-bot.on('delivery', (payload, reply) => {
+bot.on('delivery', (payload, reply, actions) => {
   reply({ text: 'hey!'}, (err, info) => {})
 })
 ```
 
-#### bot.on('authentication', (payload, reply))
+#### bot.on('authentication', (payload, reply, actions))
 
 Triggered when a user authenticates with the "Send to Messenger" plugin.
 
 * `payload` - Object: An object containing the authentication event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference#auth) for the format.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
 
 ```js
-bot.on('authentication', (payload, reply) => {
+bot.on('authentication', (payload, reply, actions) => {
   reply({ text: 'thanks!'}, (err, info) => {})
 })
 ```
