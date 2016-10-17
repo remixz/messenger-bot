@@ -175,7 +175,7 @@ Triggered when a user authenticates with the "Send to Messenger" plugin.
 * `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
 
 ```js
-bot.on('delivery', (payload, reply) => {
-  reply({ text: 'hey!'}, (err, info) => {})
+bot.on('authentication', (payload, reply) => {
+  reply({ text: 'thanks!'}, (err, info) => {})
 })
 ```
