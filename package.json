@@ -26,7 +26,7 @@
     "request": "^2.71.0"
   },
   "devDependencies": {
-    "nock": "^8.0.0",
+    "nock": "^9.0.0",
     "standard": "^8.0.0",
     "tap": "^7.1.1"
   }
