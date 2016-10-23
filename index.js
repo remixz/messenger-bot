@@ -16,6 +16,7 @@ class Bot extends EventEmitter {
     this.token = opts.token
     this.app_secret = opts.app_secret || false
     this.verify_token = opts.verify || false
+    this.debug = opts.debug || false
   }
 
   getProfile (id, cb) {
@@ -24,10 +25,7 @@ class Bot extends EventEmitter {
     request({
       method: 'GET',
       uri: `https://graph.facebook.com/v2.6/${id}`,
-      qs: {
-        fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
-        access_token: this.token
-      },
+      qs: this._getQs({fields: 'first_name,last_name,profile_pic,locale,timezone,gender'}),
       json: true
     }, (err, res, body) => {
       if (err) return cb(err)
@@ -43,9 +41,7 @@ class Bot extends EventEmitter {
     request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {
-        access_token: this.token
-      },
+      qs: this._getQs(),
       json: {
         recipient: { id: recipient },
         message: payload
@@ -64,9 +60,7 @@ class Bot extends EventEmitter {
     request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {
-        access_token: this.token
-      },
+      qs: this._getQs(),
       json: {
         recipient: {
           id: recipient
@@ -87,9 +81,7 @@ class Bot extends EventEmitter {
     request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-      qs: {
-        access_token: this.token
-      },
+      qs: this._getQs(),
       json: {
         setting_type: 'call_to_actions',
         thread_state: threadState,
@@ -109,9 +101,7 @@ class Bot extends EventEmitter {
     request({
       method: 'DELETE',
       uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-      qs: {
-        access_token: this.token
-      },
+      qs: this._getQs(),
       json: {
         setting_type: 'call_to_actions',
         thread_state: threadState
@@ -180,6 +170,19 @@ class Bot extends EventEmitter {
         res.end(JSON.stringify({status: 'ok'}))
       })
     }
+  }
+
+  _getQs (qs) {
+    if (typeof qs === 'undefined') {
+      qs = {}
+    }
+    qs['access_token'] = this.token
+
+    if (this.debug) {
+      qs['debug'] = this.debug
+    }
+
+    return qs
   }
 
   _handleMessage (json) {
