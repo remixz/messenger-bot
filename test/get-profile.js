@@ -22,9 +22,9 @@ tap.test('bot.getProfile() - successful request', (t) => {
     access_token: 'foo'
   }).reply(200, response)
 
-  bot.getProfile(1, (err, profile) => {
+  return bot.getProfile(1, (err, profile) => {
     t.error(err, 'response should not be error')
     t.deepEquals(profile, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })

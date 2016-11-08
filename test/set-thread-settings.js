@@ -35,11 +35,11 @@ tap.test('set thread settings - get started button - successful request', (t) =>
     }
   ]
 
-  bot.setGetStartedButton(getStartedPayload, (err, profile) => {
+  return bot.setGetStartedButton(getStartedPayload, (err, profile) => {
     t.error(err, 'response should not be error')
     t.deepEquals(profile, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })
 
 tap.test('set thread settings - persistent menu - successful request', (t) => {
@@ -78,9 +78,9 @@ tap.test('set thread settings - persistent menu - successful request', (t) => {
     }
   ]
 
-  bot.setPersistentMenu(menuPayload, (err, profile) => {
+  return bot.setPersistentMenu(menuPayload, (err, profile) => {
     t.error(err, 'response should not be error')
     t.deepEquals(profile, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })

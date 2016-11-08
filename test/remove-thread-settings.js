@@ -24,11 +24,11 @@ tap.test('set thread settings - get started button - successful request', (t) =>
     })
     .reply(200, response)
 
-  bot.removeGetStartedButton((err, profile) => {
+  return bot.removeGetStartedButton((err, profile) => {
     t.error(err, 'response should not be error')
     t.deepEquals(profile, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })
 
 tap.test('remove thread settings - persistent menu - successful request', (t) => {
@@ -52,9 +52,9 @@ tap.test('remove thread settings - persistent menu - successful request', (t) =>
     })
     .reply(200, response)
 
-  bot.removePersistentMenu((err, profile) => {
+  return bot.removePersistentMenu((err, profile) => {
     t.error(err, 'response should not be error')
     t.deepEquals(profile, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })

@@ -67,9 +67,9 @@ tap.test('debug works', (t) => {
     debug: 'all'
   }).reply(200, response)
 
-  bot.sendMessage(1, payload.message, (err, body) => {
+  return bot.sendMessage(1, payload.message, (err, body) => {
     t.error(err, 'response should not be error')
     t.deepEquals(body, response, 'response is correct')
     t.end()
-  })
+  }).catch(t.threw)
 })
