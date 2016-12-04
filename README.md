@@ -202,3 +202,17 @@ bot.on('authentication', (payload, reply, actions) => {
   reply({ text: 'thanks!'}, (err, info) => {})
 })
 ```
+
+#### bot.on('referral', (payload, reply, actions))
+
+Triggered when an m.me link is used with a referral param and only in a case this user already has a thread with this bot (for new threads see 'postback' event)
+
+* `payload` - Object: An object containing the authentication event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/webhook-reference/referral) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+```js
+bot.on('referral', (payload, reply, actions) => {
+  reply({ text: 'welcome!'}, (err, info) => {})
+})
+```
