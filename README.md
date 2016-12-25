@@ -87,38 +87,38 @@ http.createServer(bot.middleware()).listen(3000)
 
 As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running. If `verify` is specified in the bot options, it will mount a handler for `GET` requests that verifies the webhook.
 
-#### `bot.sendMessage(recipient, payload, callback)`
+#### `bot.sendMessage(recipient, payload, [callback])`
 
-Sends a message with the `payload` to the target `recipient`, and calls the callback. See [Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#request).
+Sends a message with the `payload` to the target `recipient`, and calls the callback if any. Returns a promise. See [Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#request).
 
 * `recipient` - Number: The Facebook ID of the intended recipient.
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
-* `callback` - Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
-#### `bot.sendSenderAction(recipient, senderAction, callback)`
+#### `bot.sendSenderAction(recipient, senderAction, [callback])`
 
-Sends the sender action `senderAction` to the target `recipient`, and calls the callback.
+Sends the sender action `senderAction` to the target `recipient`, and calls the callback if any. Returns a promise.
 
 * `recipient` - Number: The Facebook ID of the intended recipient.
 * `senderAction` - String: The sender action to execute. Can be one of: `typing_on`, 'typing_off', 'mark_seen'. See the [Send API reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference) for more information.
-* `callback` - Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
-#### `bot.setGetStartedButton(payload, callback)`
-#### `bot.setPersistentMenu(payload, callback)`
+#### `bot.setGetStartedButton(payload, [callback])`
+#### `bot.setPersistentMenu(payload, [callback])`
 
 Sets settings for the Get Started Button / Persistent Menu. See the [Thread Settings Reference](https://developers.facebook.com/docs/messenger-platform/thread-settings) `call_to_actions` sections for what to put in the `payload`.
 
-#### `bot.removeGetStartedButton(callback)`
-#### `bot.removePersistentMenu(callback)`
+#### `bot.removeGetStartedButton([callback])`
+#### `bot.removePersistentMenu([callback])`
 
 Removes the Get Started Button / Persistent Menu.
 
-#### `bot.getProfile(target, callback)`
+#### `bot.getProfile(target, [callback])`
 
-Returns profile information of the `target`, called in the `callback`. See [User Profile API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#user_profile_request).
+Returns a promise of the profile information of the `target`, also called in the `callback` if any. See [User Profile API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#user_profile_request).
 
 * `target` - Number: The Facebook ID of the intended target.
-* `callback` - Function: Called with `(err, profile)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, in this format:
+* `callback` - (Optional) Function: Called with `(err, profile)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, in this format:
 
 ```json
 {

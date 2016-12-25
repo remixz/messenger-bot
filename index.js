@@ -2,7 +2,7 @@
 const url = require('url')
 const qs = require('querystring')
 const EventEmitter = require('events').EventEmitter
-const request = require('request')
+const request = require('request-promise')
 const crypto = require('crypto')
 
 class Bot extends EventEmitter {
@@ -20,25 +20,25 @@ class Bot extends EventEmitter {
   }
 
   getProfile (id, cb) {
-    if (!cb) cb = Function.prototype
-
-    request({
+    return request({
       method: 'GET',
       uri: `https://graph.facebook.com/v2.6/${id}`,
       qs: this._getQs({fields: 'first_name,last_name,profile_pic,locale,timezone,gender'}),
       json: true
-    }, (err, res, body) => {
-      if (err) return cb(err)
-      if (body.error) return cb(body.error)
-
+    })
+    .then(body => {
+      if (body.error) return Promise.reject(body.error)
+      if (!cb) return body
       cb(null, body)
+    })
+    .catch(err => {
+      if (!cb) return Promise.reject(err)
+      cb(err)
     })
   }
 
   sendMessage (recipient, payload, cb) {
-    if (!cb) cb = Function.prototype
-
-    request({
+    return request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/messages',
       qs: this._getQs(),
@@ -46,18 +46,20 @@ class Bot extends EventEmitter {
         recipient: { id: recipient },
         message: payload
       }
-    }, (err, res, body) => {
-      if (err) return cb(err)
-      if (body.error) return cb(body.error)
-
+    })
+    .then(body => {
+      if (body.error) return Promise.reject(body.error)
+      if (!cb) return body
       cb(null, body)
+    })
+    .catch(err => {
+      if (!cb) return Promise.reject(err)
+      cb(err)
     })
   }
 
   sendSenderAction (recipient, senderAction, cb) {
-    if (!cb) cb = Function.prototype
-
-    request({
+    return request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/messages',
       qs: this._getQs(),
@@ -67,18 +69,20 @@ class Bot extends EventEmitter {
         },
         sender_action: senderAction
       }
-    }, (err, res, body) => {
-      if (err) return cb(err)
-      if (body.error) return cb(body.error)
-
+    })
+    .then(body => {
+      if (body.error) return Promise.reject(body.error)
+      if (!cb) return body
       cb(null, body)
+    })
+    .catch(err => {
+      if (!cb) return Promise.reject(err)
+      cb(err)
     })
   }
 
   setThreadSettings (threadState, callToActions, cb) {
-    if (!cb) cb = Function.prototype
-
-    request({
+    return request({
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
       qs: this._getQs(),
@@ -87,18 +91,20 @@ class Bot extends EventEmitter {
         thread_state: threadState,
         call_to_actions: callToActions
       }
-    }, (err, res, body) => {
-      if (err) return cb(err)
-      if (body.error) return cb(body.error)
-
+    })
+    .then(body => {
+      if (body.error) return Promise.reject(body.error)
+      if (!cb) return body
       cb(null, body)
+    })
+    .catch(err => {
+      if (!cb) return Promise.reject(err)
+      cb(err)
     })
   }
 
   removeThreadSettings (threadState, cb) {
-    if (!cb) cb = Function.prototype
-
-    request({
+    return request({
       method: 'DELETE',
       uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
       qs: this._getQs(),
@@ -106,35 +112,31 @@ class Bot extends EventEmitter {
         setting_type: 'call_to_actions',
         thread_state: threadState
       }
-    }, (err, res, body) => {
-      if (err) return cb(err)
-      if (body.error) return cb(body.error)
-
+    })
+    .then(body => {
+      if (body.error) return Promise.reject(body.error)
+      if (!cb) return body
       cb(null, body)
+    })
+    .catch(err => {
+      if (!cb) return Promise.reject(err)
+      cb(err)
     })
   }
 
   setGetStartedButton (payload, cb) {
-    if (!cb) cb = Function.prototype
-
     return this.setThreadSettings('new_thread', payload, cb)
   }
 
   setPersistentMenu (payload, cb) {
-    if (!cb) cb = Function.prototype
-
     return this.setThreadSettings('existing_thread', payload, cb)
   }
 
   removeGetStartedButton (cb) {
-    if (!cb) cb = Function.prototype
-
     return this.removeThreadSettings('new_thread', cb)
   }
 
   removePersistentMenu (cb) {
-    if (!cb) cb = Function.prototype
-
     return this.removeThreadSettings('existing_thread', cb)
   }
 
