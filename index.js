@@ -223,6 +223,11 @@ class Bot extends EventEmitter {
           this._handleEvent('authentication', event)
         }
 
+        // handle referrals (e.g. m.me links)
+        if (event.referral) {
+          this._handleEvent('referral', event)
+        }
+
         // handle account_linking
         if (event.account_linking && event.account_linking.status) {
           if (event.account_linking.status === 'linked') {
