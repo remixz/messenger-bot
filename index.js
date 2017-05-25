@@ -81,15 +81,13 @@ class Bot extends EventEmitter {
     })
   }
 
-  setThreadSettings (threadState, callToActions, cb) {
+  setField (field, payload, cb) {
     return request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+      uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
       qs: this._getQs(),
       json: {
-        setting_type: 'call_to_actions',
-        thread_state: threadState,
-        call_to_actions: callToActions
+        [field]: payload
       }
     })
     .then(body => {
@@ -103,14 +101,13 @@ class Bot extends EventEmitter {
     })
   }
 
-  removeThreadSettings (threadState, cb) {
+  deleteField (field, cb) {
     return request({
       method: 'DELETE',
-      uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+      uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
       qs: this._getQs(),
       json: {
-        setting_type: 'call_to_actions',
-        thread_state: threadState
+        fields: [field]
       }
     })
     .then(body => {
@@ -125,19 +122,19 @@ class Bot extends EventEmitter {
   }
 
   setGetStartedButton (payload, cb) {
-    return this.setThreadSettings('new_thread', payload, cb)
+    return this.setField('get_started', payload, cb)
   }
 
   setPersistentMenu (payload, cb) {
-    return this.setThreadSettings('existing_thread', payload, cb)
+    return this.setField('persistent_menu', payload, cb)
   }
 
   removeGetStartedButton (cb) {
-    return this.removeThreadSettings('new_thread', cb)
+    return this.deleteField('get_started', cb)
   }
 
   removePersistentMenu (cb) {
-    return this.removeThreadSettings('existing_thread', cb)
+    return this.deleteField('persistent_menu', cb)
   }
 
   middleware () {

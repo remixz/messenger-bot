@@ -106,7 +106,7 @@ Sends the sender action `senderAction` to the target `recipient`, and calls the 
 #### `bot.setGetStartedButton(payload, [callback])`
 #### `bot.setPersistentMenu(payload, [callback])`
 
-Sets settings for the Get Started Button / Persistent Menu. See the [Thread Settings Reference](https://developers.facebook.com/docs/messenger-platform/thread-settings) `call_to_actions` sections for what to put in the `payload`.
+Sets settings for the Get Started Button / Persistent Menu. See the [Messenger Profile Reference](https://developers.facebook.com/docs/messenger-platform/messenger-profile) for what to put in the `payload`.
 
 #### `bot.removeGetStartedButton([callback])`
 #### `bot.removePersistentMenu([callback])`
