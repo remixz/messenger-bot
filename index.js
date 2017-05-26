@@ -129,12 +129,28 @@ class Bot extends EventEmitter {
     return this.setField('persistent_menu', payload, cb)
   }
 
+  setDomainWhitelist (payload, cb) {
+    return this.setField('whitelisted_domains', payload, cb)
+  }
+
+  setGreeting (payload, cb) {
+    return this.setField('greeting', payload, cb)
+  }
+
   removeGetStartedButton (cb) {
     return this.deleteField('get_started', cb)
   }
 
   removePersistentMenu (cb) {
     return this.deleteField('persistent_menu', cb)
+  }
+
+  removeDomainWhitelist (cb) {
+    return this.deleteField('whitelisted_domains', cb)
+  }  
+
+  removeGreeting (cb) {
+    return this.deleteField('greeting', cb)
   }
 
   middleware () {
