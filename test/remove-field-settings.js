@@ -84,7 +84,6 @@ tap.test('remove field settings - domain whitelist - successful request', (t) =>
   }).catch(t.threw)
 })
 
-
 tap.test('remove field settings - greeting text - successful request', (t) => {
   let bot = new Bot({
     token: 'foo'

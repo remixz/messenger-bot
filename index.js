@@ -147,7 +147,7 @@ class Bot extends EventEmitter {
 
   removeDomainWhitelist (cb) {
     return this.deleteField('whitelisted_domains', cb)
-  }  
+  }
 
   removeGreeting (cb) {
     return this.deleteField('greeting', cb)

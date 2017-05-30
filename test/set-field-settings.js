@@ -9,7 +9,7 @@ tap.test('set field settings - get started button - successful request', (t) => 
   })
 
   let payload = {
-    "get_started": {"payload":'USER_DEFINED_PAYLOAD'}
+    'get_started': ['USER_DEFINED_PAYLOAD']
   }
 
   let response = {
@@ -23,7 +23,7 @@ tap.test('set field settings - get started button - successful request', (t) => 
     })
     .reply(200, response)
 
-  let getStartedPayload = {"payload":'USER_DEFINED_PAYLOAD'};
+  let getStartedPayload = ['USER_DEFINED_PAYLOAD']
 
   return bot.setGetStartedButton(getStartedPayload, (err, profile) => {
     t.error(err, 'response should not be error')
@@ -38,25 +38,7 @@ tap.test('set field settings - persistent menu - successful request', (t) => {
   })
 
   let payload = {
-    "persistent_menu": [
-      {
-        "locale":"default",
-        "composer_input_disabled":false,
-        "call_to_actions":[
-           {
-            "title":"Menu",
-            "type":"nested",
-            "call_to_actions":[
-                {
-                  "type":"postback",
-                  "title":"Example",
-                  "payload":'USER_DEFINED_PAYLOAD'
-                }
-            ]
-          }
-        ]
-      }
-    ]
+    'persistent_menu': ['USER_DEFINED_PAYLOAD']
   }
 
   let response = {
@@ -70,25 +52,7 @@ tap.test('set field settings - persistent menu - successful request', (t) => {
     })
     .reply(200, response)
 
-  let persistentMenuPayload = [
-    {
-      "locale":"default",
-      "composer_input_disabled":false,
-      "call_to_actions":[
-         {
-          "title":"Menu",
-          "type":"nested",
-          "call_to_actions":[
-              {
-                "type":"postback",
-                "title":"Example",
-                "payload":'USER_DEFINED_PAYLOAD'
-              }
-          ]
-        }
-      ]
-    }
-  ]
+  let persistentMenuPayload = ['USER_DEFINED_PAYLOAD']
 
   return bot.setPersistentMenu(persistentMenuPayload, (err, profile) => {
     t.error(err, 'response should not be error')
@@ -102,8 +66,8 @@ tap.test('set field settings - domain whitelist - successful request', (t) => {
     token: 'foo'
   })
 
-  let payload =  {
-    "whitelisted_domains": ["https://www.example.com"]
+  let payload = {
+    'whitelisted_domains': ['USER_DEFINED_PAYLOAD']
   }
 
   let response = {
@@ -117,7 +81,7 @@ tap.test('set field settings - domain whitelist - successful request', (t) => {
     })
     .reply(200, response)
 
-  let domainWhitelistPayload = ["https://www.example.com"]
+  let domainWhitelistPayload = ['USER_DEFINED_PAYLOAD']
 
   return bot.setDomainWhitelist(domainWhitelistPayload, (err, profile) => {
     t.error(err, 'response should not be error')
@@ -131,16 +95,8 @@ tap.test('set field settings - greeting - successful request', (t) => {
     token: 'foo'
   })
 
-  let payload =  {
-    "greeting": [
-      {
-        "locale":"default",
-        "text":"Hello!"
-      }, {
-        "locale":"en_US",
-        "text":"Howdy!"
-      }
-    ]
+  let payload = {
+    'greeting': ['USER_DEFINED_PAYLOAD']
   }
 
   let response = {
@@ -154,15 +110,7 @@ tap.test('set field settings - greeting - successful request', (t) => {
     })
     .reply(200, response)
 
-  let greetingPayload = [
-    {
-      "locale":"default",
-      "text":"Hello!"
-    }, {
-      "locale":"en_US",
-      "text":"Howdy!"
-    }
-  ]
+  let greetingPayload = ['USER_DEFINED_PAYLOAD']
 
   return bot.setGreeting(greetingPayload, (err, profile) => {
     t.error(err, 'response should not be error')
