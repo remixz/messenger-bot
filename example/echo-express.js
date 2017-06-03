@@ -21,7 +21,7 @@ bot.on('message', (payload, reply) => {
     if (err) throw err
 
     reply({ text }, (err) => {
-      if (err) throw err
+      if (err) throw JSON.stringify(err)
 
       console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
