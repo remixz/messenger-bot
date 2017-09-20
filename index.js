@@ -180,7 +180,9 @@ class Bot extends EventEmitter {
         }
 
         let parsed = JSON.parse(body)
-        this._handleMessage(parsed)
+        if (parsed.entry[0].messaging !== null && typeof parsed.entry[0].messaging[0] !== 'undefined') {
+          this._handleMessage(parsed)
+        }
 
         res.end(JSON.stringify({status: 'ok'}))
       })
