@@ -29,6 +29,6 @@
   "devDependencies": {
     "nock": "^9.0.0",
     "standard": "^8.0.0",
-    "tap": "^8.0.0"
+    "tap": "^9.0.3"
   }
 }
