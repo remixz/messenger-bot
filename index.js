@@ -26,15 +26,15 @@ class Bot extends EventEmitter {
       qs: this._getQs({fields: 'first_name,last_name,profile_pic,locale,timezone,gender'}),
       json: true
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   sendMessage (recipient, payload, cb) {
@@ -47,15 +47,15 @@ class Bot extends EventEmitter {
         message: payload
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   sendSenderAction (recipient, senderAction, cb) {
@@ -70,15 +70,15 @@ class Bot extends EventEmitter {
         sender_action: senderAction
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   setField (field, payload, cb) {
@@ -90,15 +90,15 @@ class Bot extends EventEmitter {
         [field]: payload
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   deleteField (field, cb) {
@@ -110,15 +110,15 @@ class Bot extends EventEmitter {
         fields: [field]
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   setGetStartedButton (payload, cb) {
