@@ -95,6 +95,15 @@ Sends a message with the `payload` to the target `recipient`, and calls the call
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.sendMessageWithTag(recipient, payload, tag, [callback])`
+
+Sends a message with the `payload` to the target `recipient`, and calls the callback if any. Returns a promise. See [Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#request).
+
+* `recipient` - Number: The Facebook ID of the intended recipient.
+* `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
+* `tag` - String: The tag's message. [Supported Tags](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags#supported_tags).
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+
 #### `bot.sendSenderAction(recipient, senderAction, [callback])`
 
 Sends the sender action `senderAction` to the target `recipient`, and calls the callback if any. Returns a promise.
