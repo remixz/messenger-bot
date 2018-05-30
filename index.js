@@ -63,7 +63,7 @@ class Bot extends EventEmitter {
       })
   }
 
-  sendMessageWithTag (recipient, payload, tag, cb){
+  sendMessageWithTag (recipient, payload, tag, cb) {
     return this.sendMessage(recipient, payload, cb, tag)
   }
 
