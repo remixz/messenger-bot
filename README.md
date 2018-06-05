@@ -95,6 +95,15 @@ Sends a message with the `payload` to the target `recipient`, and calls the call
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.getAttachmentUploadId(url, is_reusable, type, [callback])`
+
+Sends the media to the Attachment Upload API and calls the callback if the upload is successful, including the `attachment_id`. See [Attachment Upload API](https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api).
+
+* `url` - String: Link where can be fetched the media.
+* `is_reusable` - Boolean: Defined if the saved asset will be sendable to other message recipients.
+* `type` - String: The type of media. Can be one of: `image`, `video`, `audio`, `file`.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the media's ID.
+
 #### `bot.sendSenderAction(recipient, senderAction, [callback])`
 
 Sends the sender action `senderAction` to the target `recipient`, and calls the callback if any. Returns a promise.
