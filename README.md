@@ -103,6 +103,13 @@ Sends the sender action `senderAction` to the target `recipient`, and calls the 
 * `senderAction` - String: The sender action to execute. Can be one of: `typing_on`, 'typing_off', 'mark_seen'. See the [Sender Actions API reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions) for more information.
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.unlinkAccount(psid, [callback])`
+
+Unlinks the user with the corresponding `psid`, and calls the callback if any. Returns a promise. See [Account Unlink Endpoint].(https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#unlink)
+
+* `psid` - Number: The Facebook ID of the user who has to be logged out.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook.
+
 #### `bot.setGetStartedButton(payload, [callback])`
 #### `bot.setPersistentMenu(payload, [callback])`
 
