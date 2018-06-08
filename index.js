@@ -127,7 +127,7 @@ class Bot extends EventEmitter {
       uri: 'https://graph.facebook.com/v2.6/me/unlink_accounts',
       qs: this._getQs(),
       json: {
-        psid : psid
+        psid: psid
       }
     })
       .then(body => {
