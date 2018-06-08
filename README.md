@@ -87,22 +87,15 @@ http.createServer(bot.middleware()).listen(3000)
 
 As well, it mounts `/_status`, which will return `{"status": "ok"}` if the middleware is running. If `verify` is specified in the bot options, it will mount a handler for `GET` requests that verifies the webhook.
 
-#### `bot.sendMessage(recipient, payload, [callback])`
+#### `bot.sendMessage(recipient, payload, [callback], [messagingType], [tag])`
 
 Sends a message with the `payload` to the target `recipient`, and calls the callback if any. Returns a promise. See [Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#request).
 
 * `recipient` - Number: The Facebook ID of the intended recipient.
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
-
-#### `bot.sendMessageWithTag(recipient, payload, tag, [callback])`
-
-Sends a message with the `payload` to the target `recipient`, and calls the callback if any. Returns a promise. See [Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference#request).
-
-* `recipient` - Number: The Facebook ID of the intended recipient.
-* `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
-* `tag` - String: The tag's message. [Supported Tags](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags#supported_tags).
-* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+* `messagingType` - (Optional) String: The message type. [Supported Messaging Type](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+* `tag` - (Optional) String: The tag's message. [Supported Tags](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags#supported_tags).
 
 #### `bot.sendSenderAction(recipient, senderAction, [callback])`
 
