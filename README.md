@@ -216,3 +216,31 @@ bot.on('referral', (payload, reply, actions) => {
   reply({ text: 'welcome!'}, (err, info) => {})
 })
 ```
+
+#### bot.on('accountLinked', (payload, reply, actions))
+
+Triggered when an account is linked with the [Account Linking Process](https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#linking_process).
+
+* `payload` - Object: An object containing the linking account event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_account_linking) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+```js
+bot.on('accountLinked', (payload, reply, actions) => {
+  reply({ text: 'Logged in!'}, (err, info) => {})
+})
+```
+
+#### bot.on('accountUnlinked', (payload, reply, actions))
+
+Triggered when an account is unlinked with the [Account Unlink Endpoint](https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#unlink) or with an [Log Out Button](https://developers.facebook.com/docs/messenger-platform/reference/buttons/logout).
+
+* `payload` - Object: An object containing the unlinking account event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_account_linking) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+```js
+bot.on('accountLinked', (payload, reply, actions) => {
+  reply({ text: 'Logged out!'}, (err, info) => {})
+})
+```
