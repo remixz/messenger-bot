@@ -50,8 +50,7 @@ class Bot extends EventEmitter {
     if (messagingType === 'MESSAGE_TAG') {
       if (tag != null) {
         options.json.tag = tag
-      }
-      else {
+      } else {
         cb(new Error('You must specify a Tag'))
       }
     }
@@ -66,8 +65,8 @@ class Bot extends EventEmitter {
       })
       .catch(err => {
         if (!cb) return Promise.reject(err)
-          cb(err)
-        })
+        cb(err)
+      })
   }
 
   sendSenderAction (recipient, senderAction, cb) {
