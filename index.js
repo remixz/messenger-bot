@@ -37,7 +37,7 @@ class Bot extends EventEmitter {
       })
   }
 
-  sendMessage (recipient, payload, cb, tag = null) {
+  sendMessage (recipient, payload, cb, messagingType = null, tag = null) {
     let options = {
       method: 'POST',
       uri: 'https://graph.facebook.com/v2.6/me/messages',
@@ -47,9 +47,16 @@ class Bot extends EventEmitter {
         message: payload
       }
     }
-    if (tag != null) {
-      options.json.messaging_type = 'MESSAGE_TAG'
-      options.json.tag = tag
+    if (messagingType === 'MESSAGE_TAG') {
+      if (tag != null) {
+        options.json.tag = tag
+      }
+      else {
+        cb(new Error('You must specify a Tag'))
+      }
+    }
+    if (messagingType != null) {
+      options.json.messaging_type = messagingType
     }
     return request(options)
       .then(body => {
@@ -59,12 +66,8 @@ class Bot extends EventEmitter {
       })
       .catch(err => {
         if (!cb) return Promise.reject(err)
-        cb(err)
-      })
-  }
-
-  sendMessageWithTag (recipient, payload, tag, cb) {
-    return this.sendMessage(recipient, payload, cb, tag)
+          cb(err)
+        })
   }
 
   sendSenderAction (recipient, senderAction, cb) {
