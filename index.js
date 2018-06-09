@@ -140,6 +140,34 @@ class Bot extends EventEmitter {
         cb(err)
       })
   }
+  
+  getAttachmentUploadId (url, isReusable, type, cb) {
+    return request({
+      method: 'POST',
+      uri: 'https://graph.facebook.com/v2.6/me/message_attachments',
+      qs: this._getQs(),
+      json: {
+        message: {
+          attachment: {
+            type: type,
+            payload: {
+              is_reusable: isReusable,
+              url: url
+            }
+          }
+        }
+      }
+    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
+  }
 
   setGetStartedButton (payload, cb) {
     return this.setField('get_started', payload, cb)
