@@ -140,7 +140,7 @@ class Bot extends EventEmitter {
         cb(err)
       })
   }
-  
+
   getAttachmentUploadId (url, isReusable, type, cb) {
     return request({
       method: 'POST',
