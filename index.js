@@ -121,6 +121,26 @@ class Bot extends EventEmitter {
       })
   }
 
+  unlinkAccount (psid, cb) {
+    return request({
+      method: 'POST',
+      uri: 'https://graph.facebook.com/v2.6/me/unlink_accounts',
+      qs: this._getQs(),
+      json: {
+        psid: psid
+      }
+    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
+  }
+
   getAttachmentUploadId (url, isReusable, type, cb) {
     return request({
       method: 'POST',
