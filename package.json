@@ -29,6 +29,15 @@
   "devDependencies": {
     "nock": "^9.0.0",
     "standard": "^11.0.1",
-    "tap": "=11.9.0"
+    "tap": {
+      "version": "11.1.5",
+      "from": "tap@11.1.5",
+      "dependencies": {
+        "nyc": {
+          "version": "11.9.0",
+          "from": "nyc@11.9.0"
+        }
+      }
+    }
   }
 }
