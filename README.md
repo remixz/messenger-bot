@@ -95,6 +95,15 @@ Sends a message with the `payload` to the target `recipient`, and calls the call
 * `payload` - Object: The message payload. Should follow the [Send API format](https://developers.facebook.com/docs/messenger-platform/send-api-reference).
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
 
+#### `bot.getAttachmentUploadId(url, is_reusable, type, [callback])`
+
+Sends the media to the Attachment Upload API and calls the callback if the upload is successful, including the `attachment_id`. See [Attachment Upload API](https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api).
+
+* `url` - String: Link where can be fetched the media.
+* `is_reusable` - Boolean: Defined if the saved asset will be sendable to other message recipients.
+* `type` - String: The type of media. Can be one of: `image`, `video`, `audio`, `file`.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the media's ID.
+
 #### `bot.sendSenderAction(recipient, senderAction, [callback])`
 
 Sends the sender action `senderAction` to the target `recipient`, and calls the callback if any. Returns a promise.
@@ -102,6 +111,13 @@ Sends the sender action `senderAction` to the target `recipient`, and calls the 
 * `recipient` - Number: The Facebook ID of the intended recipient.
 * `senderAction` - String: The sender action to execute. Can be one of: `typing_on`, 'typing_off', 'mark_seen'. See the [Sender Actions API reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions) for more information.
 * `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook, usually with the new message's ID.
+
+#### `bot.unlinkAccount(psid, [callback])`
+
+Unlinks the user with the corresponding `psid`, and calls the callback if any. Returns a promise. See [Account Unlink Endpoint].(https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#unlink)
+
+* `psid` - Number: The Facebook ID of the user who has to be logged out.
+* `callback` - (Optional) Function: Called with `(err, info)` once the request has completed. `err` contains an error, if any, and `info` contains the response from Facebook.
 
 #### `bot.setGetStartedButton(payload, [callback])`
 #### `bot.setPersistentMenu(payload, [callback])`
@@ -214,5 +230,33 @@ Triggered when an m.me link is used with a referral param and only in a case thi
 ```js
 bot.on('referral', (payload, reply, actions) => {
   reply({ text: 'welcome!'}, (err, info) => {})
+})
+```
+
+#### bot.on('accountLinked', (payload, reply, actions))
+
+Triggered when an account is linked with the [Account Linking Process](https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#linking_process).
+
+* `payload` - Object: An object containing the linking account event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_account_linking) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+```js
+bot.on('accountLinked', (payload, reply, actions) => {
+  reply({ text: 'Logged in!'}, (err, info) => {})
+})
+```
+
+#### bot.on('accountUnlinked', (payload, reply, actions))
+
+Triggered when an account is unlinked with the [Account Unlink Endpoint](https://developers.facebook.com/docs/messenger-platform/identity/account-linking?locale=en_US#unlink) or with an [Log Out Button](https://developers.facebook.com/docs/messenger-platform/reference/buttons/logout).
+
+* `payload` - Object: An object containing the unlinking account event's payload from Facebook. See [Facebook's documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_account_linking) for the format.
+* `reply` - Function: A convenience function that calls `bot.sendMessage`, with the recipient automatically set to the message sender's Facebook ID. Example usage:
+* `actions` - Object: An object with two functions: `setTyping(status: Boolean)`, and `markRead()`.
+
+```js
+bot.on('accountLinked', (payload, reply, actions) => {
+  reply({ text: 'Logged out!'}, (err, info) => {})
 })
 ```

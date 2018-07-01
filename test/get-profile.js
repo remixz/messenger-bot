@@ -17,7 +17,7 @@ tap.test('bot.getProfile() - successful request', (t) => {
     gender: 'M'
   }
 
-  nock('https://graph.facebook.com').get('/v2.6/1').query({
+  nock('https://graph.facebook.com').get('/v2.12/1').query({
     fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
     access_token: 'foo'
   }).reply(200, response)

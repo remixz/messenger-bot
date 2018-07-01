@@ -16,7 +16,7 @@
     "client",
     "bot"
   ],
-  "author": "Zach Bruggeman <mail@bruggie.com>",
+  "author": "Zach Bruggeman <mail@bruggie.com>, Thomas Stig Jacobsen <tsj@lunarway.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/remixz/messenger-bot/issues"
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "nock": "^9.0.0",
-    "standard": "^8.0.0",
-    "tap": "^8.0.0"
+    "standard": "^11.0.1",
+    "tap": "^11.1.5"
   }
 }

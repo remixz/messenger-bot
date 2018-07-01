@@ -13,7 +13,7 @@ class Bot extends EventEmitter {
     if (!opts.token) {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
-    this.graph_url = opts.graph_url ? opts.graph_url : 'https://graph.facebook.com/v2.6/'
+    this.graph_url = opts.graph_url ? opts.graph_url : 'https://graph.facebook.com/v2.12/'
     this.token = opts.token
     this.app_secret = opts.app_secret || false
     this.verify_token = opts.verify || false
@@ -27,15 +27,15 @@ class Bot extends EventEmitter {
       qs: this._getQs({fields: 'first_name,last_name,profile_pic,locale,timezone,gender'}),
       json: true
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   sendMessage (recipient, payload, cb) {
@@ -48,15 +48,15 @@ class Bot extends EventEmitter {
         message: payload
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   sendSenderAction (recipient, senderAction, cb) {
@@ -71,15 +71,15 @@ class Bot extends EventEmitter {
         sender_action: senderAction
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   setField (field, payload, cb) {
@@ -91,15 +91,15 @@ class Bot extends EventEmitter {
         [field]: payload
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
-    })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
-    })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   deleteField (field, cb) {
@@ -111,15 +111,63 @@ class Bot extends EventEmitter {
         fields: [field]
       }
     })
-    .then(body => {
-      if (body.error) return Promise.reject(body.error)
-      if (!cb) return body
-      cb(null, body)
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
+  }
+
+  unlinkAccount (psid, cb) {
+    return request({
+      method: 'POST',
+      uri: this.graph_url + 'me/unlink_accounts',
+      qs: this._getQs(),
+      json: {
+        psid: psid
+      }
     })
-    .catch(err => {
-      if (!cb) return Promise.reject(err)
-      cb(err)
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
+  }
+
+  getAttachmentUploadId (url, isReusable, type, cb) {
+    return request({
+      method: 'POST',
+      uri: this.graph_url + 'me/message_attachments',
+      qs: this._getQs(),
+      json: {
+        message: {
+          attachment: {
+            type: type,
+            payload: {
+              is_reusable: isReusable,
+              url: url
+            }
+          }
+        }
+      }
     })
+      .then(body => {
+        if (body.error) return Promise.reject(body.error)
+        if (!cb) return body
+        cb(null, body)
+      })
+      .catch(err => {
+        if (!cb) return Promise.reject(err)
+        cb(err)
+      })
   }
 
   setGetStartedButton (payload, cb) {
@@ -181,7 +229,9 @@ class Bot extends EventEmitter {
         }
 
         let parsed = JSON.parse(body)
-        this._handleMessage(parsed)
+        if (parsed.entry[0].messaging !== null && typeof parsed.entry[0].messaging[0] !== 'undefined') {
+          this._handleMessage(parsed)
+        }
 
         res.end(JSON.stringify({status: 'ok'}))
       })

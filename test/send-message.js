@@ -18,7 +18,7 @@ tap.test('bot.getProfile() - successful request', (t) => {
     message_id: 'mid.1456970487936:c34767dfe57ee6e339'
   }
 
-  nock('https://graph.facebook.com').post('/v2.6/me/messages', payload).query({
+  nock('https://graph.facebook.com').post('/v2.12/me/messages', payload).query({
     access_token: 'foo'
   }).reply(200, response)
 

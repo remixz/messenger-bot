@@ -17,7 +17,7 @@ tap.test('set field settings - get started button - successful request', (t) => 
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messenger_profile', payload)
+    .post('/v2.12/me/messenger_profile', payload)
     .query({
       access_token: 'foo'
     })
@@ -46,7 +46,7 @@ tap.test('set field settings - persistent menu - successful request', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messenger_profile', payload)
+    .post('/v2.12/me/messenger_profile', payload)
     .query({
       access_token: 'foo'
     })
@@ -75,7 +75,7 @@ tap.test('set field settings - domain whitelist - successful request', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messenger_profile', payload)
+    .post('/v2.12/me/messenger_profile', payload)
     .query({
       access_token: 'foo'
     })
@@ -104,7 +104,7 @@ tap.test('set field settings - greeting - successful request', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messenger_profile', payload)
+    .post('/v2.12/me/messenger_profile', payload)
     .query({
       access_token: 'foo'
     })
