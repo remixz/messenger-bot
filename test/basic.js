@@ -62,7 +62,7 @@ tap.test('debug works', (t) => {
     __debug__: {}
   }
 
-  nock('https://graph.facebook.com').post('/v2.6/me/messages', payload).query({
+  nock('https://graph.facebook.com').post('/v2.12/me/messages', payload).query({
     access_token: 'foo',
     debug: 'all'
   }).reply(200, response)

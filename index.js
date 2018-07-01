@@ -22,7 +22,7 @@ class Bot extends EventEmitter {
   getProfile (id, cb) {
     return request({
       method: 'GET',
-      uri: `https://graph.facebook.com/v2.6/${id}`,
+      uri: `https://graph.facebook.com/v2.12/${id}`,
       qs: this._getQs({fields: 'first_name,last_name,profile_pic,locale,timezone,gender'}),
       json: true
     })
@@ -40,7 +40,7 @@ class Bot extends EventEmitter {
   sendMessage (recipient, payload, cb) {
     return request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/messages',
+      uri: 'https://graph.facebook.com/v2.12/me/messages',
       qs: this._getQs(),
       json: {
         recipient: { id: recipient },
@@ -61,7 +61,7 @@ class Bot extends EventEmitter {
   sendSenderAction (recipient, senderAction, cb) {
     return request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/messages',
+      uri: 'https://graph.facebook.com/v2.12/me/messages',
       qs: this._getQs(),
       json: {
         recipient: {
@@ -84,7 +84,7 @@ class Bot extends EventEmitter {
   setField (field, payload, cb) {
     return request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+      uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
       qs: this._getQs(),
       json: {
         [field]: payload
@@ -104,7 +104,7 @@ class Bot extends EventEmitter {
   deleteField (field, cb) {
     return request({
       method: 'DELETE',
-      uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+      uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
       qs: this._getQs(),
       json: {
         fields: [field]

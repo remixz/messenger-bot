@@ -22,7 +22,7 @@ tap.test('actions.setTyping(true)', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messages', payload)
+    .post('/v2.12/me/messages', payload)
     .query({
       access_token: 'foo'
     })
@@ -85,7 +85,7 @@ tap.test('actions.setTyping(false)', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messages', payload)
+    .post('/v2.12/me/messages', payload)
     .query({
       access_token: 'foo'
     })
@@ -148,7 +148,7 @@ tap.test('actions.markRead()', (t) => {
   }
 
   nock('https://graph.facebook.com')
-    .post('/v2.6/me/messages', payload)
+    .post('/v2.12/me/messages', payload)
     .query({
       access_token: 'foo'
     })
