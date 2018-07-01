@@ -38,8 +38,8 @@ class Bot extends EventEmitter {
       })
   }
 
-  sendMessage (recipient, payload, cb) {
-    return request({
+  sendMessage (recipient, payload, cb, messagingType = null, tag = null) {
+    let options = {
       method: 'POST',
       uri: this.graph_url + 'me/messages',
       qs: this._getQs(),
@@ -47,7 +47,18 @@ class Bot extends EventEmitter {
         recipient: { id: recipient },
         message: payload
       }
-    })
+    }
+    if (messagingType === 'MESSAGE_TAG') {
+      if (tag != null) {
+        options.json.tag = tag
+      } else {
+        cb(new Error('You must specify a Tag'))
+      }
+    }
+    if (messagingType != null) {
+      options.json.messaging_type = messagingType
+    }
+    return request(options)
       .then(body => {
         if (body.error) return Promise.reject(body.error)
         if (!cb) return body
